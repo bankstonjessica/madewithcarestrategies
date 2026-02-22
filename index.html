@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Made With Care Strategies — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:     #FAF8F4;
+    --sand:      #F0EBE1;
+    --sand-dark: #E2D9CC;
+    --charcoal:  #26282A;
+    --bark-mid:  #6B5F58;
+    --bark-light:#9C8F87;
+    --bark-faint:#C4BAB3;
+    --teal-mist: #EAF4F2;
+    --teal-text: #1A5C52;
+    --teal:      #2A7C74;
+    --teal-hover:#3D9E94;
+    --gold:      #B08D57;
+    --bark-dark: #3D3530;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans:  'DM Sans', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    background: var(--bark-dark);
+    font-family: var(--sans);
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(42,124,116,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(176,141,87,0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Compass arc decorations */
+  .arc-wrap {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .arc {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(107,184,176,0.07);
+  }
+  .arc-1 { width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  .arc-2 { width: 800px; height: 800px; top: 50%; left: 50%; transform: translate(-50%,-50%); border-color: rgba(107,184,176,0.05); }
+  .arc-3 { width: 1100px; height: 1100px; top: 50%; left: 50%; transform: translate(-50%,-50%); border-color: rgba(107,184,176,0.03); }
+  .arc-gold { width: 400px; height: 400px; top: 50%; left: 50%; transform: translate(-50%,-50%); border-color: rgba(176,141,87,0.06); }
+
+  /* Main layout */
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  /* Compass */
+  .compass {
+    width: 72px; height: 72px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.85;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.1s forwards;
+  }
+
+  /* Wordmark */
+  .wordmark {
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.25s forwards;
+    margin-bottom: 40px;
+  }
+  .wordmark-top {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    color: var(--sand);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    display: block;
+  }
+  .wordmark-rule {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.12);
+    margin: 10px 0 8px;
+  }
+  .wordmark-bottom {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.68);
+    display: block;
+  }
+
+  /* Teal accent line */
+  .teal-line {
+    width: 48px; height: 2px;
+    background: var(--teal);
+    margin: 0 auto 36px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.35s forwards;
+  }
+
+  /* Headline */
+  .headline {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+    max-width: 560px;
+    margin: 0 auto 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.45s forwards;
+  }
+  .headline em {
+    font-style: italic;
+    color: #6BB8B0;
+  }
+
+  .subhead {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.68);
+    line-height: 1.85;
+    max-width: 420px;
+    margin: 0 auto 56px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.55s forwards;
+  }
+
+  /* Email capture */
+  .capture-wrap {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto 56px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.65s forwards;
+  }
+  .capture-label {
+    font-size: 0.63rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 14px;
+  }
+  .capture-form {
+    display: flex;
+    gap: 0;
+    width: 100%;
+  }
+  .capture-input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-right: none;
+    padding: 14px 20px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: white;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .capture-input::placeholder { color: rgba(255,255,255,0.65); }
+  .capture-input:focus {
+    border-color: rgba(107,184,176,0.4);
+    background: rgba(255,255,255,0.09);
+  }
+  .capture-btn {
+    background: var(--teal);
+    border: 1px solid var(--teal);
+    color: white;
+    padding: 14px 28px;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+  }
+  .capture-btn:hover { background: var(--teal-hover); border-color: var(--teal-hover); }
+
+  .success-msg {
+    display: none;
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-style: italic;
+    color: #6BB8B0;
+    margin-top: 12px;
+  }
+
+  /* Pillars */
+  .pillars {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 64px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.75s forwards;
+  }
+  .pillar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .pillar-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--teal);
+    opacity: 0.6;
+  }
+  .pillar-text {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .pillar-div {
+    width: 1px; height: 28px;
+    background: rgba(255,255,255,0.08);
+    align-self: center;
+  }
+
+  /* Contact */
+  .contact-row {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.85s forwards;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+  .contact-item:hover { opacity: 0.7; }
+  .contact-item svg {
+    width: 13px; height: 13px;
+    color: var(--teal);
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+  .contact-item span {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.72);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 40px;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  footer p {
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.12);
+    letter-spacing: 0.08em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="arc-wrap">
+  <div class="arc arc-gold"></div>
+  <div class="arc arc-1"></div>
+  <div class="arc arc-2"></div>
+  <div class="arc arc-3"></div>
+</div>
+
+<main>
+
+  <img src="data:image/png;base64,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" class="compass" alt="Made With Care Strategies">
+
+  <div class="wordmark">
+    <span class="wordmark-top">Made With Care</span>
+    <span class="wordmark-rule"></span>
+    <span class="wordmark-bottom">Strategies</span>
+  </div>
+
+  <div class="teal-line"></div>
+
+  <h1 class="headline">Something <em>intentional</em><br>is on its way.</h1>
+  <p class="subhead">A new kind of consultancy — bringing clarity, care, and sanity over speed to organizations navigating AI, change, and what comes next.</p>
+
+  <div class="capture-wrap">
+    <p class="capture-label">Be the first to know when we launch</p>
+    <div class="capture-form">
+      <input type="email" class="capture-input" placeholder="your@email.com" id="email-input">
+      <button class="capture-btn" onclick="handleSubmit()">Notify Me</button>
+    </div>
+    <p class="success-msg" id="success-msg">You're on the list. We'll be in touch soon.</p>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">AI &amp; Innovation Readiness</span>
+    </div>
+    <div class="pillar-div"></div>
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">Change Adoption &amp; Communications</span>
+    </div>
+    <div class="pillar-div"></div>
+    <div class="pillar">
+      <div class="pillar-dot"></div>
+      <span class="pillar-text">Strategic Clarity &amp; Positioning</span>
+    </div>
+  </div>
+
+  <div class="contact-row">
+    <a href="mailto:jessica@madewithcarestrategies.com" class="contact-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <span>jessica@madewithcarestrategies.com</span>
+    </a>
+    <a href="tel:8044854084" class="contact-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.72A2 2 0 012 .82h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.92v1z"/></svg>
+      <span>(804) 485-4084</span>
+    </a>
+
+  </div>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 Made With Care Strategies LLC &nbsp;·&nbsp; Virginia, USA &nbsp;·&nbsp; Available to Clients Globally</p>
+</footer>
+
+<script>
+function handleSubmit() {
+  var email = document.getElementById('email-input').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('email-input').style.borderColor = 'rgba(255,100,100,0.4)';
+    return;
+  }
+  // In production, POST to your email service (Mailchimp, ConvertKit, etc.)
+  // For now, shows confirmation and logs to console
+  console.log('Email captured:', email);
+  document.getElementById('email-input').style.display = 'none';
+  document.querySelector('.capture-btn').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+}
+
+// Allow Enter key
+document.getElementById('email-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleSubmit();
+});
+</script>
+
+</body>
+</html>
